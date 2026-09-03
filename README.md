@@ -139,7 +139,7 @@ python scripts/capture_submission.py
 
 ## 보안·비용 안내
 
-키 파일과 `.env`는 `.gitignore`에 포함되어 있습니다. 브라우저에는 Gemini/Firebase 비밀 키를 넣지 않습니다. Gemini 호출은 최근 메시지 12개, 출력 500토큰으로 제한했습니다. CORS는 등록한 로컬/배포 출처만 허용하며, 운영 환경에서 `*` 사용은 권장하지 않습니다.
+키 파일과 `.env`는 `.gitignore`에 포함되어 있습니다. 브라우저에는 Gemini/Firebase 비밀 키를 넣지 않습니다. Gemini 호출은 최근 메시지 12개, 출력 700토큰으로 제한했습니다. CORS는 등록한 로컬/배포 출처만 허용하며, 운영 환경에서 `*` 사용은 권장하지 않습니다.
 
 ### 과제 명세와 Gemini 사용
 

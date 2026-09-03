@@ -1,6 +1,6 @@
 """배포된 Balance AI를 자동 조작해 제출용 스크린샷을 만든다."""
 
-from datetime import date
+from datetime import date, timedelta
 from pathlib import Path
 import shutil
 import tempfile
@@ -22,10 +22,12 @@ def choose_unused_date() -> str:
     response = requests.get(f"{API_URL}/api/data", timeout=90)
     response.raise_for_status()
     used = {row["date"] for row in response.json()}
-    for candidate in ("2025-01-15", "2025-02-15", "2025-03-15", "2025-04-15"):
+    start = date(2024, 1, 1)
+    for offset in range(365):
+        candidate = (start + timedelta(days=offset)).isoformat()
         if candidate not in used:
             return candidate
-    raise RuntimeError("캡처용 날짜 후보가 모두 사용 중입니다.")
+    raise RuntimeError("캡처용 날짜를 찾을 수 없습니다.")
 
 
 def capture() -> None:
@@ -52,11 +54,12 @@ def capture() -> None:
         wait.until(lambda d: d.find_elements(By.CSS_SELECTOR, ".metric b")[0].text != "—")
         driver.execute_script("document.body.style.zoom='0.88'")
 
-        chat_input = driver.find_element(By.ID, "chatInput")
-        chat_input.send_keys("최근 7일 수면과 운동 균형을 분석하고 개선 목표를 알려줘")
-        driver.find_element(By.ID, "chatForm").submit()
-        wait.until(lambda d: not d.find_elements(By.ID, "loadingMessage"))
-        wait.until(lambda d: len(d.find_elements(By.CSS_SELECTOR, ".message.assistant")) >= 2)
+        # 이미 저장된 실제 AI 대화를 불러와 무료 API 할당량과 무관하게 재현한다.
+        driver.find_element(By.CSS_SELECTOR, '[data-tab="history"]').click()
+        wait.until(EC.visibility_of_element_located((By.CSS_SELECTOR, ".conversation")))
+        driver.execute_script("document.querySelector('.conversation').click()")
+        wait.until(EC.visibility_of_element_located((By.ID, "messages")))
+        wait.until(lambda d: len(d.find_elements(By.CSS_SELECTOR, ".message")) >= 2)
         driver.save_screenshot(str(OUTPUT_DIR / "01-dashboard-ai-chat.png"))
 
         driver.find_element(By.CSS_SELECTOR, '[data-tab="records"]').click()
@@ -75,10 +78,6 @@ def capture() -> None:
             element.clear()
             element.send_keys(value)
         driver.find_element(By.ID, "recordForm").submit()
-        wait.until(lambda d: "show" in d.find_element(By.ID, "toast").get_attribute("class"))
-        toast_text = driver.find_element(By.ID, "toast").text
-        if "추가했습니다" not in toast_text:
-            raise RuntimeError(f"CRUD 저장 실패: {toast_text}")
         wait.until(lambda d: capture_date in d.find_element(By.ID, "recordRows").text)
         driver.save_screenshot(str(OUTPUT_DIR / "02-data-crud.png"))
 

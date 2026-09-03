@@ -38,7 +38,7 @@ def build_system_prompt(summary: dict) -> str:
 - 지표: {summary['metrics']}
 - 최근 7일 추세: {summary['trend']}
 - 인사이트: {summary['insight']}
-위 데이터에 근거해 수치를 인용하고 모르는 내용은 추측하지 마세요. 의료 진단을 내리지 말고 이상 증상은 의료진 상담을 권하세요. 한국어로 간결하고 실행 가능하게 답하세요."""
+위 데이터에 근거해 수치를 인용하고 모르는 내용은 추측하지 마세요. 분석하겠다는 예고만 하지 말고 첫 문장부터 분석 결과를 제시하세요. 의료 진단을 내리지 말고 이상 증상은 의료진 상담을 권하세요. 한국어로 간결하고 실행 가능하게 답하세요."""
 
 
 def ask_ai(messages: list[dict], summary: dict) -> str:
@@ -60,7 +60,8 @@ def ask_ai(messages: list[dict], summary: dict) -> str:
         contents=contents,
         config=types.GenerateContentConfig(
             system_instruction=build_system_prompt(summary),
-            max_output_tokens=500,
+            max_output_tokens=700,
+            thinking_config=types.ThinkingConfig(thinking_budget=0),
         ),
     )
     if not response.text:
