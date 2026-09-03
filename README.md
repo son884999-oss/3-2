@@ -111,7 +111,7 @@ pytest -q
 ### Vercel 프론트엔드
 
 1. 같은 저장소를 Import하고 Root Directory를 `frontend`로 지정합니다.
-2. Framework Preset은 `Other`, Build Command는 `npm run build`, Output Directory는 `.`로 설정합니다.
+2. Framework Preset은 `Other`로 설정합니다. 저장소의 `vercel.json`이 Build Command `npm run build`와 Output Directory `dist`를 지정합니다.
 3. 환경 변수 `API_BASE_URL=https://<render-service>.onrender.com`을 등록합니다. 빌드 시 `build-config.js`가 이 값을 `config.js`에 반영합니다.
 4. 발급된 Vercel 주소를 백엔드의 `ALLOWED_ORIGINS`에 추가하고 재배포합니다.
 
