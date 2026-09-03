@@ -64,7 +64,7 @@ Gemini API 키와 Firebase 서비스 계정은 프론트엔드에 노출하지 �
 - Render 루트와 Swagger HTTP 200
 - Vercel 공개 페이지 HTTP 200
 - Vercel → Render CORS preflight HTTP 200
-- Firestore 요약 데이터 126건 조회(최종 검수 시점)
+- Firestore 요약 데이터 120건 이상 조회
 - Gemini 실제 답변 생성
 - 대화 자동 저장·불러오기·삭제 검증
 - 실제 Chrome 자동화로 채팅·CRUD·대화 복원 검증

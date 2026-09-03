@@ -66,7 +66,11 @@ def capture() -> None:
         wait.until(lambda d: len(d.find_elements(By.CSS_SELECTOR, ".message")) >= 2)
         # 1번은 일반 채팅 화면, 4번은 불러오기 상태가 보이는 화면으로 구분한다.
         wait.until(EC.visibility_of_element_located((By.ID, "conversationStatus")))
-        driver.execute_script("document.getElementById('conversationStatus').classList.add('hidden')")
+        driver.execute_script(
+            "document.getElementById('conversationStatus').classList.add('hidden');"
+            "document.getElementById('toast').classList.remove('show')"
+        )
+        wait.until(lambda d: d.find_element(By.ID, "toast").value_of_css_property("opacity") == "0")
         driver.save_screenshot(str(OUTPUT_DIR / "01-dashboard-ai-chat.png"))
 
         driver.find_element(By.CSS_SELECTOR, '[data-tab="records"]').click()
