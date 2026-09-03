@@ -17,8 +17,10 @@ Balance AI는 사용자의 날짜별 수면시간과 운동시간을 함께 관�
 
 | 요구사항 | 구현 내용 | 확인 위치 |
 |---|---|---|
+| 개발 환경 | Python 3.11 가상환경과 의존성 파일 구성 | `backend/requirements.txt` |
 | 시계열 데이터 100건 이상 | 고정 난수 시드로 최근 120일 수면·운동 데이터 생성 | `POST /api/data/seed` |
 | 기본 통계·최근 추세 | 기간, 개수, 평균·최대·최소·합계, 최근 7일 변화 | `GET /api/data/summary` |
+| FastAPI 구조·CORS·Swagger | router/service/repository 분리, 허용 출처 설정, 자동 API 문서 | `backend/app`, `/docs` |
 | 데이터 CRUD | 날짜, 수면시간, 운동시간, 메모의 추가·조회·수정·삭제 | `/api/data` |
 | 요청 검증 | 수면 0–24시간, 운동 0–1,440분, 미래 날짜·빈 메시지 차단 | `backend/app/models.py` |
 | Firestore | `data`, `conversations` 컬렉션과 서비스 계정 인증 | `backend/app/repository.py` |
@@ -27,6 +29,8 @@ Balance AI는 사용자의 날짜별 수면시간과 운동시간을 함께 관�
 | 로딩 UX | AI 응답 대기 메시지와 Render 콜드스타트 안내 | 채팅 패널 |
 | 백엔드 배포 | Render Web Service 및 공개 Swagger | 배포 URL |
 | 프론트엔드 배포 | Vercel 정적 배포와 `API_BASE_URL` 빌드 주입 | 배포 URL |
+| 실행·환경변수 문서 | 서비스 소개, 스택, URL, 로컬 실행, 키 설정, 콜드스타트 안내 | `README.md` |
+| 제출 증빙 | 채팅·CRUD·대화 목록·불러오기 화면 4장 | `screenshots` |
 | 보너스 | Canvas 이중 추세 그래프, CSV, 건강 달성률, 다크 모드 | 대시보드 |
 
 ## 4. 설계 설명
@@ -56,16 +60,24 @@ Gemini API 키와 Firebase 서비스 계정은 프론트엔드에 노출하지 �
 ## 5. 검증 결과
 
 - Python 3.11.16 환경 구성
-- 단위 테스트 3개 통과
+- 단위 테스트 5개 통과
 - Render 루트와 Swagger HTTP 200
 - Vercel 공개 페이지 HTTP 200
 - Vercel → Render CORS preflight HTTP 200
-- Firestore 요약 데이터 120건 이상 조회
+- Firestore 요약 데이터 126건 조회(최종 검수 시점)
 - Gemini 실제 답변 생성
 - 대화 자동 저장·불러오기·삭제 검증
 - 실제 Chrome 자동화로 채팅·CRUD·대화 복원 검증
 
-## 6. 제출 스크린샷
+## 6. 최종 요구사항 감사
+
+필수 기능인 데이터 CRUD와 요약, 대화 저장·목록·단건 불러오기·삭제, AI 채팅과 자동 저장, 로딩 표시, Render/Vercel 배포, Swagger, 환경변수 안내와 제출 스크린샷은 모두 충족했습니다. 선택 과제 중 시각화, 추가 지표, CSV 내보내기와 다크 모드도 구현했습니다.
+
+유일한 명세 차이는 AI 제공자입니다. 과제 문구에는 `openai` 패키지와 OpenAI API 키가 적혀 있지만 이 프로젝트는 발급받은 Google Gemini 키와 `google-genai` 패키지를 사용합니다. 데이터 요약을 시스템 지시문에 주입하는 핵심 원리와 동작은 같지만, 평가자가 OpenAI 사용을 문자 그대로 요구한다면 감점 가능성이 있으므로 제출 전에 Gemini 대체 사용 가능 여부를 확인해야 합니다.
+
+Function Calling과 MCP/GPT Actions 연동은 선택 보너스이므로 구현하지 않았으며 필수 기능 충족에는 영향을 주지 않습니다.
+
+## 7. 제출 스크린샷
 
 ### 데이터 요약 및 AI 채팅
 
@@ -83,6 +95,8 @@ Gemini API 키와 Firebase 서비스 계정은 프론트엔드에 노출하지 �
 
 ![대화 불러오기](screenshots/04-conversation-loaded.png)
 
-## 7. 발표용 한 문장
+## 8. 발표용 한 문장
 
 “수면과 운동 시계열 데이터를 Firestore에 저장하고 통계 요약을 Gemini 시스템 지시문에 주입해, 내 기록을 실제로 이해하는 건강관리 AI 서비스를 구현했습니다.”
+
+상세 발표 순서와 예상 질문 답변은 [PRESENTATION.md](PRESENTATION.md)를 참고합니다.
