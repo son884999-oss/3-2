@@ -1,0 +1,8 @@
+.env
+.env.py
+.venv/
+__pycache__/
+*.pyc
+service-account*.json
+.firebase/
+Microsoft/

@@ -1,0 +1,2 @@
+{"name":"balance-ai-frontend","private":true,"scripts":{"build":"node build-config.js"}}
+
