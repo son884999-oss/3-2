@@ -64,6 +64,9 @@ def capture() -> None:
         driver.execute_script("document.querySelector('.conversation').click()")
         wait.until(EC.visibility_of_element_located((By.ID, "messages")))
         wait.until(lambda d: len(d.find_elements(By.CSS_SELECTOR, ".message")) >= 2)
+        # 1번은 일반 채팅 화면, 4번은 불러오기 상태가 보이는 화면으로 구분한다.
+        wait.until(EC.visibility_of_element_located((By.ID, "conversationStatus")))
+        driver.execute_script("document.getElementById('conversationStatus').classList.add('hidden')")
         driver.save_screenshot(str(OUTPUT_DIR / "01-dashboard-ai-chat.png"))
 
         driver.find_element(By.CSS_SELECTOR, '[data-tab="records"]').click()
@@ -92,6 +95,8 @@ def capture() -> None:
         driver.execute_script("document.querySelector('.conversation').click()")
         wait.until(EC.visibility_of_element_located((By.ID, "messages")))
         wait.until(lambda d: len(d.find_elements(By.CSS_SELECTOR, ".message")) >= 2)
+        wait.until(EC.visibility_of_element_located((By.ID, "conversationStatus")))
+        wait.until(lambda d: "저장된 대화 불러옴" in d.find_element(By.ID, "conversationStatus").text)
         driver.save_screenshot(str(OUTPUT_DIR / "04-conversation-loaded.png"))
 
         severe = [
