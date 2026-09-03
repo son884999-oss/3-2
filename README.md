@@ -1,5 +1,7 @@
 # Balance AI — 수면·운동 건강관리 에이전트
 
+최종 제출용 요구사항 매핑과 스크린샷은 [SUBMISSION.md](SUBMISSION.md)에서 확인할 수 있습니다.
+
 수면 시간과 운동 시간을 날짜별로 기록하고, 시계열 요약을 주입받은 AI 코치에게 내 데이터에 근거한 질문을 할 수 있는 웹 서비스입니다. 120일치 재현 가능한 가상 데이터 생성, CRUD, 대화 자동 저장/불러오기, 이중 추세 차트, CSV 다운로드와 다크 모드를 지원합니다.
 
 > 이 서비스의 답변은 건강 습관 관리를 위한 참고 정보이며 의료 진단을 대신하지 않습니다.
@@ -78,8 +80,16 @@ py -m http.server 5500
 ### 테스트
 
 ```powershell
+backend\.venv\Scripts\python.exe -m pytest -q
+```
+
+배포 사이트 제출용 화면을 다시 생성하려면 개발 의존성을 설치한 뒤 저장소 루트에서 자동화 스크립트를 실행합니다.
+
+```powershell
 cd backend
-pytest -q
+pip install -r requirements-dev.txt
+cd ..
+python scripts/capture_submission.py
 ```
 
 ## API
