@@ -1,6 +1,7 @@
 """배포된 Balance AI를 자동 조작해 제출용 스크린샷을 만든다."""
 
 from datetime import date, timedelta
+import os
 from pathlib import Path
 import shutil
 import tempfile
@@ -13,8 +14,11 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 
 
-FRONTEND_URL = "https://3-2-son884999-oss-projects.vercel.app"
-API_URL = "https://balance-ai-api.onrender.com"
+FRONTEND_URL = os.getenv(
+    "CAPTURE_FRONTEND_URL",
+    "https://3-2-son884999-oss-projects.vercel.app",
+).rstrip("/")
+API_URL = os.getenv("CAPTURE_API_URL", "https://balance-ai-api.onrender.com").rstrip("/")
 OUTPUT_DIR = Path(__file__).resolve().parents[1] / "screenshots"
 
 
