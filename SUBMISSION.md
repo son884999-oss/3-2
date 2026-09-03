@@ -51,7 +51,7 @@ Firestore에서 날짜순으로 기록을 읽어 수면과 운동 배열로 분�
 
 ### 배포 보안
 
-Gemini API 키와 Firebase 서비스 계정은 프론트엔드에 노출하지 않고 Render 환경변수와 Secret File로만 관리합니다. Vercel에는 공개 백엔드 주소만 둡니다. CORS는 로컬 주소와 실제 Vercel 도메인만 허용합니다. `.env`, 서비스 계정 JSON, 가상환경은 `.gitignore`에서 제외됩니다.
+Gemini API 키와 Firebase 서비스 계정은 프론트엔드에 노출하지 않고 Render 환경변수와 Secret File로만 관리합니다. Vercel에는 공개 백엔드 주소만 둡니다. CORS는 로컬 주소, 실제 Vercel 도메인과 해당 팀의 배포 미리보기 도메인만 허용합니다. `.env`, 서비스 계정 JSON, 가상환경은 `.gitignore`에서 제외됩니다.
 
 ## 5. 검증 결과
 

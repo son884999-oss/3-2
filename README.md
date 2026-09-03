@@ -58,6 +58,7 @@ GEMINI_MODEL=gemini-2.5-flash
 FIREBASE_SERVICE_ACCOUNT_JSON={"type":"service_account",...}
 # FIREBASE_SERVICE_ACCOUNT_PATH=C:/secure/service-account.json
 ALLOWED_ORIGINS=http://localhost:5500,https://your-app.vercel.app
+ALLOWED_ORIGIN_REGEX=https://[a-z0-9-]+-your-vercel-team\.vercel\.app
 ```
 
 API는 `http://localhost:8000`, Swagger UI는 `http://localhost:8000/docs`에서 확인합니다. 가상 데이터는 화면 버튼 또는 다음 요청으로 한 번 생성합니다. 같은 날짜는 중복 생성하지 않으므로 다시 실행해도 안전합니다.
@@ -113,7 +114,7 @@ python scripts/capture_submission.py
 
 1. GitHub 저장소를 연결하고 Root Directory를 `backend`로 지정합니다.
 2. 저장소의 `render.yaml`을 이용하거나 Build Command `pip install -r requirements.txt`, Start Command `uvicorn main:app --host 0.0.0.0 --port $PORT`를 입력합니다.
-3. `GEMINI_API_KEY`, `GEMINI_MODEL`, `FIREBASE_SERVICE_ACCOUNT_JSON`, `ALLOWED_ORIGINS`를 환경 변수로 등록합니다. API 키와 서비스 계정 JSON은 Secret으로 관리합니다.
+3. `GEMINI_API_KEY`, `GEMINI_MODEL`, `FIREBASE_SERVICE_ACCOUNT_JSON`, `ALLOWED_ORIGINS`를 환경 변수로 등록합니다. 필요하면 `ALLOWED_ORIGIN_REGEX`로 본인 Vercel 팀의 미리보기 도메인만 허용합니다. API 키와 서비스 계정 JSON은 Secret으로 관리합니다.
 4. `https://<render-service>.onrender.com/docs`에서 Swagger를 확인합니다.
 
 무료 인스턴스는 첫 요청 때 콜드스타트가 발생할 수 있어 화면에 최대 1분 대기 안내를 표시합니다.

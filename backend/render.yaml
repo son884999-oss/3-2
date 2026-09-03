@@ -17,3 +17,5 @@ services:
         sync: false
       - key: ALLOWED_ORIGINS
         sync: false
+      - key: ALLOWED_ORIGIN_REGEX
+        value: https://[a-z0-9-]+-son884999-oss-projects\.vercel\.app

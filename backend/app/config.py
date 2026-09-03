@@ -15,6 +15,14 @@ def allowed_origins() -> list[str]:
     return [item.strip().rstrip("/") for item in raw.split(",") if item.strip()]
 
 
+def allowed_origin_regex() -> str | None:
+    """Vercel의 배포별·브랜치별 URL을 제한된 팀 도메인 안에서 허용한다."""
+    return os.getenv(
+        "ALLOWED_ORIGIN_REGEX",
+        r"https://[a-z0-9-]+-son884999-oss-projects\.vercel\.app",
+    ) or None
+
+
 @lru_cache
 def get_db():
     if not firebase_admin._apps:
@@ -28,4 +36,3 @@ def get_db():
             raise RuntimeError("Firebase 서비스 계정 환경 변수가 설정되지 않았습니다.")
         firebase_admin.initialize_app(cred)
     return firestore.client()
-
