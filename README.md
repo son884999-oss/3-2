@@ -118,8 +118,8 @@ pytest -q
 ### 배포 URL (배포 후 교체)
 
 - Frontend: `https://your-app.vercel.app`
-- Backend API: `https://your-api.onrender.com`
-- Swagger: `https://your-api.onrender.com/docs`
+- Backend API: `https://balance-ai-api.onrender.com`
+- Swagger: `https://balance-ai-api.onrender.com/docs`
 
 ## 제출 스크린샷 체크리스트
 
